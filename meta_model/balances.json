@@ -1,0 +1,14 @@
+{
+  "model_A": {
+    "balance": 1005,
+    "weight": 1.05
+  },
+  "model_B": {
+    "balance": 1005,
+    "weight": 1.05
+  },
+  "model_C": {
+    "balance": 1005,
+    "weight": 1.05
+  }
+}

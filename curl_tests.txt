@@ -1,0 +1,82 @@
+# 🔬 Test Commands (curl)
+
+## Part A – Predictive APIs
+```bash
+# Test Model A
+curl "http://localhost:5001/predict?sl=5.1&sw=3.5&pl=1.4&pw=0.2"
+
+# Test Model B
+curl "http://localhost:5002/predict?sl=5.1&sw=3.5&pl=1.4&pw=0.2"
+
+# Test Model C
+curl "http://localhost:5003/predict?sl=5.1&sw=3.5&pl=1.4&pw=0.2"
+
+# Meta Model
+curl "http://localhost:6001/predict?sl=5.1&sw=3.5&pl=1.4&pw=0.2"
+```
+
+---
+
+## Part B – E-Commerce API
+
+### DNS Load Balancer
+```bash
+curl http://localhost:8000/getServer
+```
+
+### Products
+```bash
+curl http://localhost:3001/products
+curl -X POST http://localhost:3001/products \
+-H "Content-Type: application/json" \
+-d '{"name":"Smartwatch","description":"Wearable tech","price":199.99,"category":"accessories","inStock":true}'
+```
+
+### Orders
+```bash
+curl -X POST http://localhost:3001/orders \
+-H "Content-Type: application/json" \
+-d '{"userId":1, "items":[{"productId":1,"quantity":2}]}'
+
+curl http://localhost:3001/orders/1
+```
+
+### Cart
+```bash
+curl -X POST http://localhost:3001/cart/1 \
+-H "Content-Type: application/json" \
+-d '{"productId":1,"quantity":1}'
+
+curl http://localhost:3001/cart/1
+
+curl -X DELETE http://localhost:3001/cart/1/item/1
+```
+
+---
+
+## Synchronous Mirroring (Port 3010)
+```bash
+curl -X POST http://localhost:3010/products \
+-H "Content-Type: application/json" \
+-d '{"name":"Speaker","description":"Bluetooth speaker","price":49.99,"category":"audio","inStock":true}'
+
+cat db_primary.json
+cat db_mirror.json
+```
+
+---
+
+## Asynchronous Replication (Port 3020)
+```bash
+curl -X POST http://localhost:3020/products \
+-H "Content-Type: application/json" \
+-d '{"name":"Tablet","description":"Portable screen","price":299.99,"category":"electronics","inStock":true}'
+
+cat db_primary.json
+cat db_mirror.json  # <- Check difference before syncing
+
+curl -X POST http://localhost:3020/sync
+
+cat db_mirror.json  # <- Should now be identical
+```
+
